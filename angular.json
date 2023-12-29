@@ -67,19 +67,19 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "todomvc-angular:build",
-            "port": 9100
+            "port": 9100,
+            "buildTarget": "todomvc-angular:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "todomvc-angular:build:production"
+              "buildTarget": "todomvc-angular:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "todomvc-angular:build"
+            "buildTarget": "todomvc-angular:build"
           }
         },
         "test": {
@@ -88,7 +88,6 @@
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
             "assets": [
               "src/favicon.ico",
               "src/assets"
