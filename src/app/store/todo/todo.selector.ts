@@ -18,23 +18,27 @@ export function selectVisible({ todos, filter }: TodoStateInterface) {
 
 export const selectAllCompleted = createSelector(
   (state: TodoStateInterface) => state.todos,
-  (todos: TodoInterface[]) => todos.length && todos.every(todo => todo.completed)
+  (todos: ReadonlyArray<TodoInterface>) => todos.length && todos.every(todo => todo.completed)
 );
 
 export const selectItemsLeft = createSelector(
   (state: TodoStateInterface) => state.todos,
-  (todos: TodoInterface[]) => selectNotCompleted(todos).length
+  (todos: ReadonlyArray<TodoInterface>) => selectNotCompleted(todos).length
 );
 
 export const selectCompletedCount = createSelector(
   (state: TodoStateInterface) => state.todos,
-  (todos: TodoInterface[]) => selectCompleted(todos).length
+  (todos: ReadonlyArray<TodoInterface>) => selectCompleted(todos).length
 );
 
-export function selectNotCompleted(todos: TodoInterface[]): TodoInterface[] {
+export const selectTodoById = (state: TodoStateInterface, id: string) => {
+  return state.todos.find(todo => todo.id === id);
+};
+
+export function selectNotCompleted(todos: ReadonlyArray<TodoInterface>): ReadonlyArray<TodoInterface> {
   return todos.filter(todo => !todo.completed);
 }
 
-export function selectCompleted(todos: TodoInterface[]): TodoInterface[] {
+export function selectCompleted(todos: ReadonlyArray<TodoInterface>): ReadonlyArray<TodoInterface> {
   return todos.filter(todo => todo.completed);
 }

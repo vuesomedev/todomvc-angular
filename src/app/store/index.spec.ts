@@ -3,7 +3,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { cold } from 'jasmine-marbles';
 import { createStore } from './index';
 import { TodoStateInterface } from './todo-state.interface';
-import { onCreate } from './actions/todo.action';
+import { onCreate } from './todo/todo.action';
 
 describe('createStore', () => {
   beforeEach(() => {
@@ -24,7 +24,7 @@ describe('createStore', () => {
   it('should add new todo', () => {
     const store: Store<TodoStateInterface> = TestBed.inject(Store);
 
-    store.dispatch(onCreate('Demo'));
+    store.dispatch(onCreate({ id: '1', name: 'Demo' }));
 
     const expectedTodos = cold('a', { a: [{ id: jasmine.any(String), name: 'Demo', completed: false }] });
     expect(store.select('todos')).toBeObservable(expectedTodos);

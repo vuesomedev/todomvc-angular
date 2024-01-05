@@ -4,11 +4,18 @@ import { TodoLocalService } from '../../services/todo-local.service';
 import { Observable } from 'rxjs';
 import { TodoInterface } from '../../services/todo.interface';
 import { TodoStateInterface } from '../../store/todo-state.interface';
-import { onLoad } from '../../store/actions/todo.action';
+import { onLoad } from '../../store/todo/todo.action';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html'
+  template: `<div id="app">
+    <section class="todoapp">
+      <app-header></app-header>
+      <app-list *ngIf="(todos$ | async)?.length"></app-list>
+      <app-footer *ngIf="(todos$ | async)?.length"></app-footer>
+    </section>
+    <app-copy-right></app-copy-right>
+  </div>`
 })
 export class AppComponent implements OnInit {
   todos$: Observable<TodoInterface[]>;
