@@ -43,4 +43,10 @@ export class TodoService {
   toggleCompleted() {
     this.store.dispatch(onCompleteAll());
   }
+
+  deleteTodos(ids: string[]) {
+    for (const id of ids) {
+      this.deleteTodo(id);
+    }
+  }
 }

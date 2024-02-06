@@ -27,6 +27,11 @@ describe('ListComponent', () => {
     harness = await TestbedHarnessEnvironment.harnessForFixture(fixture, ListHarness);
   });
 
+  afterEach(() => {
+    const [todos] = subscribeSpyTo(todoService.getTodos()).getValues() as TodoInterface[][];
+    todoService.deleteTodos(todos.map(todo => todo.id));
+  });
+
   it('should return an empty list of todo items', async () => {
     const todos = await harness.getTodos();
 
@@ -51,7 +56,7 @@ describe('ListComponent', () => {
     const [firstTodo] = subscribeSpyTo(todoService.getTodos()).getValues()[0];
     todoService.updateTodo({ id: firstTodo.id, completed: true });
 
-    const completedTodos = await harness.getTodos({ isCompleted: true });
+    const completedTodos = await harness.getCompletedTodos();
 
     expect(completedTodos.length).toEqual(1);
   });
@@ -62,27 +67,58 @@ describe('ListComponent', () => {
     todoService.addTodo(todo1);
     todoService.addTodo(todo2);
 
-    const [firstTodo] = subscribeSpyTo(todoService.getTodos()).getValues()[0];
-    todoService.updateTodo({ id: firstTodo.id, completed: true });
+    const todos = await harness.getTodos();
+    const [firstTodo] = todos;
+    await firstTodo.edit({ name: 'Demo 2', completed: true });
 
-    const completedTodos = await harness.getTodos({ isCompleted: false });
+    const completedTodos = await harness.getIncompleteTodos();
 
     expect(completedTodos.length).toEqual(1);
   });
 
-  // it('should remove all todos with a specific name', async () => {
-  //   const todo1: AddTodo = { id: '1', name: 'Demo' };
-  //   const todo2: AddTodo = { id: '2', name: 'Demo' };
-  //   const todo3: AddTodo = { id: '3', name: 'Demo' };
-  //   todoService.addTodo(todo1);
-  //   todoService.addTodo(todo2);
-  //   todoService.addTodo(todo3);
+  it('should edit a todo and mark it as complete', async () => {
+    const todo1: AddTodo = { id: '1', name: 'Demo' };
+    const todo2: AddTodo = { id: '2', name: 'Demo' };
+    todoService.addTodo(todo1);
+    todoService.addTodo(todo2);
 
-  //   await harness.removeAllTodos();
-  //   const todos = await harness.getTodos();
+    const todos = await harness.getTodos();
+    const [firstTodo] = todos;
+    await firstTodo.edit({ name: 'Demo 2', completed: true });
 
-  //   expect(todos.length).toEqual(0);
-  // });
+    const todoData = await firstTodo.getTodoData();
+
+    expect(todoData).toEqual({ id: '1', name: 'Demo 2', completed: true });
+  });
+
+  it('should edit a todo and not mark it as complete', async () => {
+    const todo1: AddTodo = { id: '1', name: 'Demo' };
+    const todo2: AddTodo = { id: '2', name: 'Demo' };
+    todoService.addTodo(todo1);
+    todoService.addTodo(todo2);
+
+    const todos = await harness.getTodos();
+    const [firstTodo] = todos;
+    await firstTodo.edit({ name: 'Demo 2', completed: false });
+
+    const todoData = await firstTodo.getTodoData();
+
+    expect(todoData).toEqual({ id: '1', name: 'Demo 2', completed: false });
+  });
+
+  it('should remove all todos', async () => {
+    const todo1: AddTodo = { id: '1', name: 'Demo' };
+    const todo2: AddTodo = { id: '2', name: 'Demo' };
+    const todo3: AddTodo = { id: '3', name: 'Demo' };
+    todoService.addTodo(todo1);
+    todoService.addTodo(todo2);
+    todoService.addTodo(todo3);
+
+    await harness.removeAllTodos();
+    const todos = await harness.getTodos();
+
+    expect(todos.length).toEqual(0);
+  });
 
   it('should return undefined for a todo that does not exist', async () => {
     const todo = await harness.getTodoById('1');
@@ -125,7 +161,7 @@ describe('ListComponent', () => {
     todoService.addTodo(todo2);
 
     await harness.markAllTodosAsComplete();
-    const areAllTodoComplete = await harness.areAllTodosCompleted();
+    const areAllTodoComplete = await harness.areAllTodosComplete();
 
     expect(areAllTodoComplete).toBe(true);
   });
@@ -136,7 +172,7 @@ describe('ListComponent', () => {
     todoService.addTodo(todo1);
     todoService.addTodo(todo2);
 
-    const areAllTodoComplete = await harness.areAllTodosCompleted();
+    const areAllTodoComplete = await harness.areAllTodosComplete();
 
     expect(areAllTodoComplete).toBe(false);
   });
@@ -153,7 +189,7 @@ describe('ListComponent', () => {
   });
 
   it('should check todo when unchecked', async () => {
-    const todo1: AddTodo = { id: '1', name: 'Demo', completed: true };
+    const todo1: AddTodo = { id: '1', name: 'Demo' };
     todoService.addTodo(todo1);
 
     const todo = await harness.getTodoById(todo1.id);
@@ -183,5 +219,45 @@ describe('ListComponent', () => {
     const retrievedTodo = await harness.getTodoDataById(todo1.id);
 
     expect(retrievedTodo?.completed).toEqual(false);
+  });
+
+  it('should return all todos that are completed', async () => {
+    const todo1: AddTodo = { id: '1', name: 'Demo001', completed: false };
+    const todo2: AddTodo = { id: '2', name: 'Demo002', completed: true };
+    const todo3: AddTodo = { id: '3', name: 'Demo003', completed: false };
+    todoService.addTodo(todo1);
+    todoService.addTodo(todo2);
+    todoService.addTodo(todo3);
+
+    const completedTodos = await harness.getCompletedTodos();
+
+    expect(completedTodos.length).toEqual(1);
+  });
+
+  it('should return all todos that are incomplete', async () => {
+    const todo1: AddTodo = { id: '1', name: 'Demo001', completed: false };
+    const todo2: AddTodo = { id: '2', name: 'Demo002', completed: true };
+    const todo3: AddTodo = { id: '3', name: 'Demo003', completed: false };
+    todoService.addTodo(todo1);
+    todoService.addTodo(todo2);
+    todoService.addTodo(todo3);
+
+    const completedTodos = await harness.getIncompleteTodos();
+
+    expect(completedTodos.length).toEqual(2);
+  });
+
+  it('should remove 1 todo', async () => {
+    const todo1: AddTodo = { id: '1', name: 'Demo001', completed: false };
+    const todo2: AddTodo = { id: '2', name: 'Demo002', completed: true };
+    const todo3: AddTodo = { id: '3', name: 'Demo003', completed: false };
+    todoService.addTodo(todo1);
+    todoService.addTodo(todo2);
+    todoService.addTodo(todo3);
+
+    await harness.removeTodoById(todo2.id);
+    const allTodos = await harness.getTodos();
+
+    expect(allTodos.length).toEqual(2);
   });
 });

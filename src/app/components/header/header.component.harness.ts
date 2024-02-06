@@ -7,6 +7,7 @@ export class HeaderHarness extends ComponentHarness {
 
   async addTodo(name: string): Promise<void> {
     const input = await this._addTodo();
+    await input.clear();
     await input.sendKeys(name, TestKey.ENTER);
   }
 }

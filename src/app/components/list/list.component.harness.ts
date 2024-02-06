@@ -3,50 +3,49 @@ import { ItemHarness } from '../item/item.component.harness';
 import { UpdateTodo } from 'src/app/store/todo-state.interface';
 import { TodoInterface } from 'src/app/services/todo.interface';
 
-type TodoFilter = { isCompleted?: boolean };
-
 export class ListHarness extends ComponentHarness {
   static readonly hostSelector = 'app-list';
 
   private todos = this.locatorForAll(ItemHarness);
+  private allCompleted = this.locatorFor('label');
 
-  async getTodos({ isCompleted }: TodoFilter = {}) {
+  async getTodos(): Promise<ItemHarness[]> {
     const todos = await this.todos();
-    const todoList: ItemHarness[] = [];
-    if (isCompleted === undefined) {
-      return todos;
-    }
-    for (const todo of todos) {
-      const isComplete = await todo.isCompleted();
-      if (isComplete === isCompleted) todoList.push(todo);
-    }
-    return todoList;
+    return todos;
+  }
+
+  async getCompletedTodos(): Promise<ItemHarness[]> {
+    const todoList = await this.getTodos();
+    const todos = await this.getTodoData();
+    return todoList.filter((_todo, index) => todos[index]?.completed ?? false);
+  }
+
+  async getIncompleteTodos(): Promise<ItemHarness[]> {
+    const todoList = await this.getTodos();
+    const todos = await this.getTodoData();
+    return todoList.filter((_todo, index) => !todos[index]?.completed);
   }
 
   async getTodoById(id: string): Promise<ItemHarness | undefined> {
+    let indexOfTodo = -1;
     const todoList = await this.getTodos();
-    for (const todo of todoList) {
-      const todoId = await todo.getId();
-      if (todoId === id) {
-        return todo;
-      }
-    }
-    return;
+    const todosData = await this.getTodoData();
+    if (!todosData) return;
+    todosData.find((_todoData, index) => {
+      if (_todoData?.id === id) indexOfTodo = index;
+    });
+    return todoList[indexOfTodo];
   }
 
   async getTodoDataById(todoId: string): Promise<TodoInterface | undefined> {
-    const todoList = await this.getTodos();
+    const todos = await this.getTodoData();
+    return todos.find(todo => todo?.id === todoId);
+  }
 
-    const todos = await parallel(() => todoList.map((todo) => parallel(() => [todo.getId(), todo.getTodoLabel(), todo.isCompleted()])));
-    const todoFound = todos.find(todo => todo[0] === todoId);
-    if (!todoFound) return;
-    const [id, name, completed] = todoFound;
-    const todo: TodoInterface = {
-      id: id ?? '',
-      name,
-      completed,
-    }
-    return todo;
+  async getTodoData() {
+    const todoList = await this.getTodos();
+    const todos = await parallel(() => todoList.map(todo => todo.getTodoData()));
+    return todos.filter((todo): todo is TodoInterface => !!todo);
   }
 
   async removeTodoById(id: string) {
@@ -56,9 +55,7 @@ export class ListHarness extends ComponentHarness {
 
   async removeAllTodos() {
     const todoList = await this.getTodos();
-    for (const todo of todoList) {
-      await todo.remove();
-    }
+    await parallel(() => todoList.map(todo => todo.remove()));
   }
 
   async updateTodo(id: string, todo: UpdateTodo) {
@@ -67,18 +64,14 @@ export class ListHarness extends ComponentHarness {
   }
 
   async markAllTodosAsComplete() {
-    const todoList = await this.getTodos();
-    for (const todo of todoList) {
-      await todo.check();
-    }
+    const markAsComplete = await this.allCompleted();
+    await markAsComplete.click();
   }
 
-  async areAllTodosCompleted(): Promise<boolean>{
-    const todoList = await this.getTodos();
-    for (const todo of todoList) {
-      const isComplete = await todo.isCompleted();
-      if (!isComplete) return isComplete;
-    }
-    return true;
+  async areAllTodosComplete(): Promise<boolean> {
+    const todoList = (await this.getTodoData()).map(
+      todo => todo != undefined && todo.completed !== undefined && todo.completed
+    );
+    return todoList.every(todo => todo);
   }
 }

@@ -1,4 +1,5 @@
-import { ComponentHarness, TestElement } from '@angular/cdk/testing';
+import { ComponentHarness, TestElement, parallel } from '@angular/cdk/testing';
+import { TodoInterface } from 'src/app/services/todo.interface';
 import { UpdateTodo } from 'src/app/store/todo-state.interface';
 
 export class ItemHarness extends ComponentHarness {
@@ -31,9 +32,10 @@ export class ItemHarness extends ComponentHarness {
     }
   }
 
-  async getId(): Promise<string | null> {
+  async getId(): Promise<string> {
     const label = await this._todoLabel();
-    return label.getAttribute('id');
+    const id = await label.getAttribute('id');
+    return id ?? '';
   }
 
   async getTodoLabel(): Promise<string> {
@@ -64,17 +66,24 @@ export class ItemHarness extends ComponentHarness {
   async edit(todoToUpdate: UpdateTodo): Promise<void> {
     const { name, completed } = todoToUpdate;
     await this.enabledEditMode();
-    const isComplete = await this.isCompleted();
-    const editInput = await this._editInput();
-    const label = await this._todoLabel();
+    const [label, editInput, isComplete] = await parallel(() => [
+      this._todoLabel(),
+      this._editInput(),
+      this.isCompleted()
+    ]);
     if (name && editInput) {
       await editInput.clear();
       await editInput.sendKeys(name);
       await editInput.blur();
       await label.click();
     }
-    if (completed !== isComplete) {
+    if (completed && completed !== isComplete) {
       await this.toggle();
     }
+  }
+
+  async getTodoData(): Promise<TodoInterface | undefined> {
+    const [id, name, completed] = await parallel(() => [this.getId(), this.getTodoLabel(), this.isCompleted()]);
+    return { id, name, completed };
   }
 }

@@ -5,6 +5,6 @@ export interface TodoStateInterface {
   filter: string;
 }
 
-export type AddTodo = Omit<TodoInterface, 'complete'>;
+export type AddTodo = { __typename?: 'AddTodo' } & Omit<TodoInterface, 'complete'>;
 
-export type UpdateTodo = Omit<TodoInterface, 'id'>;
+export type UpdateTodo = { __typename?: "UpdateTodo" } & Omit<TodoInterface, 'id'>;

@@ -14,7 +14,7 @@ export const createTodoReducer = (initialState: ReadonlyArray<TodoInterface>) =>
       return todos;
     }),
     on(onCreate, (state: ReadonlyArray<TodoInterface>, { todo }) => {
-      return [...state, { id: todo.id ? todo.id : uuidv4(), name: todo.name, completed: false }];
+      return [...state, { id: todo.id ? todo.id : uuidv4(), name: todo.name, completed: todo.completed ?? false }];
     }),
     on(onUpdate, (state: ReadonlyArray<TodoInterface>, { values }) => {
       return state.map(todo => (todo.id === values.id ? { ...todo, ...values } : todo));

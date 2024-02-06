@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { TodoInterface } from '../../services/todo.interface';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -17,7 +17,7 @@ import { FormsModule } from '@angular/forms';
   </li> `,
   standalone: true,
   styleUrls: ['./item.component.css'],
-  imports: [NgClass, NgIf, FormsModule]
+  imports: [NgClass, FormsModule]
 })
 export class ItemComponent implements OnChanges {
   editing = false;

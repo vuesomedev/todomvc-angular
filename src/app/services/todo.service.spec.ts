@@ -26,6 +26,15 @@ describe('TodoService', () => {
     expect(totalTodos).toEqual(1);
   });
 
+  it('should add a todo that is complete', async () => {
+    const expectedTodo: AddTodo = { id: '1', name: 'Demo', completed: true };
+
+    service.addTodo(expectedTodo);
+    const [[retrievedTodo]] = subscribeSpyTo(service.getTodos()).getValues();
+
+    expect(retrievedTodo).toEqual(expectedTodo);
+  });
+
   it('should update a todo by Id', async () => {
     const todo1: AddTodo = { id: '1', name: 'Demo' };
 
@@ -134,11 +143,18 @@ describe('TodoService', () => {
     ]);
   });
 
-  it('should return items left', async () => {
-    
+  it('should delete todos by ids', async () => {
+    const firstTodo: AddTodo = { id: '1', name: 'Demo' };
+    const secondTodo: AddTodo = { id: '2', name: 'Demo' };
+
+    service.addTodo(firstTodo);
+    service.addTodo(secondTodo);
+
+    service.deleteTodos([firstTodo.id, secondTodo.id]);
   });
 
-  it('should return completed todo count', async () => {
+
+  it('should return items left', async () => {
     
   });
 

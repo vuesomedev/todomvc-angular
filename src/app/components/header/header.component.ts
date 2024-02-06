@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TodoStateInterface } from '../../store/todo-state.interface';
 import { onCreate } from '../../store/todo/todo.action';
+import { v4 as uuidv4 } from 'uuid';
 
 const ENTER_KEY = 'Enter';
 
@@ -35,7 +36,7 @@ export class HeaderComponent {
       return;
     }
 
-    this.store.dispatch(onCreate({ id: '1', name: this.name }));
+    this.store.dispatch(onCreate({ id: uuidv4(), name: this.name }));
     this.name = '';
   }
 }

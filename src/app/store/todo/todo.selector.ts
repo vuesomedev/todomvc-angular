@@ -31,10 +31,6 @@ export const selectCompletedCount = createSelector(
   (todos: ReadonlyArray<TodoInterface>) => selectCompleted(todos).length
 );
 
-export const selectTodoById = (state: TodoStateInterface, id: string) => {
-  return state.todos.find(todo => todo.id === id);
-};
-
 export function selectNotCompleted(todos: ReadonlyArray<TodoInterface>): ReadonlyArray<TodoInterface> {
   return todos.filter(todo => !todo.completed);
 }

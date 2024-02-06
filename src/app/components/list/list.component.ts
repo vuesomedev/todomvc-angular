@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TodoInterface } from '../../services/todo.interface';
 import { ItemComponent } from '../item/item.component';
-import { NgFor, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { TodoService } from 'src/app/services/todo.service';
 
 @Component({
@@ -18,7 +18,7 @@ import { TodoService } from 'src/app/services/todo.service';
     </ul>
   </section> `,
   standalone: true,
-  imports: [NgFor, ItemComponent, AsyncPipe]
+  imports: [ItemComponent, AsyncPipe]
 })
 export class ListComponent {
   visibleTodos$: Observable<ReadonlyArray<TodoInterface>>;

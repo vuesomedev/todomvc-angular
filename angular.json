@@ -100,14 +100,14 @@
           }
         },
         "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
+          "builder": "@ngx-playwright/test:run",
           "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "todomvc-angular:serve"
+            "config": "playwright/playwright.config.ts",
+            "devServerTarget": "serve"
           },
           "configurations": {
-            "production": {
-              "devServerTarget": "todomvc-angular:serve:production"
+            "ci": {
+              "forbidOnly": true
             }
           }
         },

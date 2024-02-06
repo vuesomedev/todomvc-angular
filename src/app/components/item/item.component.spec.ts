@@ -1,5 +1,4 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { ItemComponent } from './item.component';
 import { ItemHarness } from './item.component.harness';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
@@ -7,7 +6,6 @@ import { provideStore } from '@ngrx/store';
 import { createStore } from 'src/app/store';
 import { TodoService } from 'src/app/services/todo.service';
 import { TodoInterface } from 'src/app/services/todo.interface';
-import { SimpleChange } from '@angular/core';
 
 describe('ItemComponent', () => {
   let fixture: ComponentFixture<ItemComponent>;
@@ -65,6 +63,15 @@ describe('ItemComponent', () => {
     expect(isEditEnabled).toEqual(true);
   });
 
+  it('should have edit mode off', async () => {
+    component.todo = { id: 'e2bb892a-844a-47fb-a2b3-47f491af9d88', name: 'Demo', completed: false };
+    harness = await TestbedHarnessEnvironment.harnessForFixture(fixture, ItemHarness);
+
+    const isEditEnabled = await harness.isEditModeEnabled();
+
+    expect(isEditEnabled).toEqual(false);
+  });
+
   it('should notify about remove button', async () => {
     component.todo = { id: 'e2bb892a-844a-47fb-a2b3-47f491af9d88', name: 'Demo', completed: true };
     harness = await TestbedHarnessEnvironment.harnessForFixture(fixture, ItemHarness);
@@ -87,5 +94,15 @@ describe('ItemComponent', () => {
     await harness.edit({ name: 'Demo Update', completed: true });
 
     expect(retrievedTodo).toEqual(expectedTodo);
+  });
+
+  it('should get todo data', async () => {
+    component.todo = { id: 'e2bb892a-844a-47fb-a2b3-47f491af9d88', name: 'Demo', completed: false };
+    const expectedTodo = { id: 'e2bb892a-844a-47fb-a2b3-47f491af9d88', name: 'Demo', completed: false };
+    harness = await TestbedHarnessEnvironment.harnessForFixture(fixture, ItemHarness);
+
+    const todo = await harness.getTodoData();
+
+    expect(todo).toEqual(expectedTodo);
   });
 });
