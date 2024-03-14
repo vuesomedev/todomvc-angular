@@ -1,0 +1,383 @@
+{
+  "version": "6.0",
+  "nxVersion": "17.1.3",
+  "deps": {
+    "@angular/animations": "^17.0.8",
+    "@angular/common": "^17.0.8",
+    "@angular/compiler": "^17.0.8",
+    "@angular/core": "^17.0.8",
+    "@angular/forms": "^17.0.8",
+    "@angular/platform-browser": "^17.0.8",
+    "@angular/platform-browser-dynamic": "^17.0.8",
+    "@angular/router": "^17.0.8",
+    "@ngrx/store": "^17.0.1",
+    "@ngrx/store-devtools": "^17.0.1",
+    "rxjs": "~7.5.5",
+    "todomvc-app-css": "~2.4.2",
+    "uuid": "~8.3.2",
+    "zone.js": "~0.14.2",
+    "@angular-devkit/build-angular": "^17.0.8",
+    "@angular-eslint/builder": "17.1.1",
+    "@angular-eslint/eslint-plugin": "17.1.1",
+    "@angular-eslint/eslint-plugin-template": "17.1.1",
+    "@angular-eslint/schematics": "17.1.1",
+    "@angular-eslint/template-parser": "17.1.1",
+    "@angular/cdk": "^17.0.4",
+    "@angular/cli": "^17.0.8",
+    "@angular/compiler-cli": "^17.0.8",
+    "@angular/language-service": "^17.0.8",
+    "@hirez_io/observer-spy": "^2.2.0",
+    "@stryker-mutator/core": "^8.0.0",
+    "@stryker-mutator/karma-runner": "^8.0.0",
+    "@types/jasmine": "~5.1.0",
+    "@types/node": "^18.19.3",
+    "@types/uuid": "~8.3.4",
+    "@typescript-eslint/eslint-plugin": "^6.10.0",
+    "@typescript-eslint/parser": "^6.10.0",
+    "eslint": "^8.53.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "jasmine-auto-spies": "^8.0.1",
+    "jasmine-core": "~5.1.0",
+    "jasmine-marbles": "^0.9.2",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "prettier": "^2.6.2",
+    "ts-node": "^10.7.0",
+    "typescript": "~5.2.2",
+    "@ngx-playwright/test": "0.5.0"
+  },
+  "pathMappings": {},
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "projectFileMap": {},
+    "nonProjectFiles": [
+      {
+        "file": ".browserslistrc",
+        "hash": "12585402484157794004"
+      },
+      {
+        "file": ".editorconfig",
+        "hash": "11791638009474165083"
+      },
+      {
+        "file": ".eslintrc.json",
+        "hash": "16069844783754053697"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "5648550137511711820"
+      },
+      {
+        "file": ".nx/cache/file-map.json",
+        "hash": "14292873737046435986"
+      },
+      {
+        "file": ".nx/cache/lockfile.hash",
+        "hash": "15556011220093910691"
+      },
+      {
+        "file": ".nx/cache/parsed-lock-file.json",
+        "hash": "10720060524124212805"
+      },
+      {
+        "file": ".nx/cache/project-graph.json",
+        "hash": "4856882464963286923"
+      },
+      {
+        "file": ".prettierrc",
+        "hash": "11467756834003215052"
+      },
+      {
+        "file": ".travis.yml",
+        "hash": "10509324179161236386"
+      },
+      {
+        "file": ".vscode/settings.json",
+        "hash": "13047217081648616981"
+      },
+      {
+        "file": "CODE_OF_CONDUCT.md",
+        "hash": "17874665722179221860"
+      },
+      {
+        "file": "CONTRIBUTING.md",
+        "hash": "12579041854420170087"
+      },
+      {
+        "file": "LICENSE",
+        "hash": "5070669565943426516"
+      },
+      {
+        "file": "README.md",
+        "hash": "13523973279176593258"
+      },
+      {
+        "file": "angular.json",
+        "hash": "6623494294484777235"
+      },
+      {
+        "file": "images/architecture.png",
+        "hash": "18227408436973342393"
+      },
+      {
+        "file": "images/screenshot.png",
+        "hash": "10888011623832120677"
+      },
+      {
+        "file": "karma.conf.js",
+        "hash": "15097960500579439600"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "3937021682082757132"
+      },
+      {
+        "file": "package.json",
+        "hash": "8931931999021055646"
+      },
+      {
+        "file": "playwright/.gitignore",
+        "hash": "10977520140061520140"
+      },
+      {
+        "file": "playwright/package.json",
+        "hash": "14132341758946197796"
+      },
+      {
+        "file": "playwright/playwright.config.ts",
+        "hash": "9666280190043382029"
+      },
+      {
+        "file": "playwright/screens/main-screen.ts",
+        "hash": "439641166247068887"
+      },
+      {
+        "file": "playwright/screens/screen.ts",
+        "hash": "8115702417563673144"
+      },
+      {
+        "file": "playwright/specs/main-screen.e2e-spec.ts",
+        "hash": "14458178787285838720"
+      },
+      {
+        "file": "playwright/tsconfig.json",
+        "hash": "7809811079948703544"
+      },
+      {
+        "file": "pnpm-lock.yaml",
+        "hash": "14420330535699464667"
+      },
+      {
+        "file": "reports/mutation/mutation.html",
+        "hash": "17369311266935270284"
+      },
+      {
+        "file": "src/app/app.config.ts",
+        "hash": "7792210774902940222"
+      },
+      {
+        "file": "src/app/components/app/app.component.harness.ts",
+        "hash": "10232191400873829274"
+      },
+      {
+        "file": "src/app/components/app/app.component.spec.ts",
+        "hash": "4468824445393535798"
+      },
+      {
+        "file": "src/app/components/app/app.component.ts",
+        "hash": "32074429731817646"
+      },
+      {
+        "file": "src/app/components/copy-right/copy-right.component.harness.ts",
+        "hash": "13587676864420976983"
+      },
+      {
+        "file": "src/app/components/copy-right/copy-right.component.spec.ts",
+        "hash": "6671343683387853945"
+      },
+      {
+        "file": "src/app/components/copy-right/copy-right.component.ts",
+        "hash": "15834443609652468088"
+      },
+      {
+        "file": "src/app/components/copy-right/copy-right.template.html",
+        "hash": "10492707274818627190"
+      },
+      {
+        "file": "src/app/components/footer/footer.component.harness.ts",
+        "hash": "10340623303840620766"
+      },
+      {
+        "file": "src/app/components/footer/footer.component.spec.ts",
+        "hash": "8562536164831592643"
+      },
+      {
+        "file": "src/app/components/footer/footer.component.ts",
+        "hash": "7234205660460174147"
+      },
+      {
+        "file": "src/app/components/header/header.component.harness.ts",
+        "hash": "18279790562928201428"
+      },
+      {
+        "file": "src/app/components/header/header.component.spec.ts",
+        "hash": "5150353345978380111"
+      },
+      {
+        "file": "src/app/components/header/header.component.ts",
+        "hash": "11032430993012390072"
+      },
+      {
+        "file": "src/app/components/item/item.component.css",
+        "hash": "2277277617069532233"
+      },
+      {
+        "file": "src/app/components/item/item.component.harness.ts",
+        "hash": "14048492025385975164"
+      },
+      {
+        "file": "src/app/components/item/item.component.spec.ts",
+        "hash": "10025896698992471911"
+      },
+      {
+        "file": "src/app/components/item/item.component.ts",
+        "hash": "9233252996112221883"
+      },
+      {
+        "file": "src/app/components/list/list.component.harness.ts",
+        "hash": "18150045753296965730"
+      },
+      {
+        "file": "src/app/components/list/list.component.spec.ts",
+        "hash": "8356912751435060127"
+      },
+      {
+        "file": "src/app/components/list/list.component.ts",
+        "hash": "1958660424270859064"
+      },
+      {
+        "file": "src/app/constants/action-type.ts",
+        "hash": "8373758858501655730"
+      },
+      {
+        "file": "src/app/constants/filter.ts",
+        "hash": "6411770038666143130"
+      },
+      {
+        "file": "src/app/services/todo-local.service.ts",
+        "hash": "519390331875980250"
+      },
+      {
+        "file": "src/app/services/todo.interface.ts",
+        "hash": "10428315023602129044"
+      },
+      {
+        "file": "src/app/services/todo.service.spec.ts",
+        "hash": "11265018508292541003"
+      },
+      {
+        "file": "src/app/services/todo.service.ts",
+        "hash": "2413271959322963999"
+      },
+      {
+        "file": "src/app/store/filter/filter.action.ts",
+        "hash": "7974664534778832253"
+      },
+      {
+        "file": "src/app/store/filter/filter.reducer.ts",
+        "hash": "9034858003806280270"
+      },
+      {
+        "file": "src/app/store/filter/filter.selector.ts",
+        "hash": "15926617656468963781"
+      },
+      {
+        "file": "src/app/store/index.spec.ts",
+        "hash": "14493212227792023808"
+      },
+      {
+        "file": "src/app/store/index.ts",
+        "hash": "14115837314132641203"
+      },
+      {
+        "file": "src/app/store/todo/todo.action.ts",
+        "hash": "176280064564135372"
+      },
+      {
+        "file": "src/app/store/todo/todo.reducer.spec.ts",
+        "hash": "5043494363119853307"
+      },
+      {
+        "file": "src/app/store/todo/todo.reducer.ts",
+        "hash": "15681054281086309339"
+      },
+      {
+        "file": "src/app/store/todo/todo.selector.spec.ts",
+        "hash": "12746014248799664528"
+      },
+      {
+        "file": "src/app/store/todo/todo.selector.ts",
+        "hash": "14562153555178632372"
+      },
+      {
+        "file": "src/app/store/todo-state.interface.ts",
+        "hash": "9026386348731963444"
+      },
+      {
+        "file": "src/environments/environment.prod.ts",
+        "hash": "5406836414239361753"
+      },
+      {
+        "file": "src/environments/environment.ts",
+        "hash": "15916301161890709639"
+      },
+      {
+        "file": "src/favicon.ico",
+        "hash": "658648322919426388"
+      },
+      {
+        "file": "src/index.html",
+        "hash": "14645419506351065907"
+      },
+      {
+        "file": "src/main.ts",
+        "hash": "12500884501407826220"
+      },
+      {
+        "file": "src/polyfills.ts",
+        "hash": "1981737859103339850"
+      },
+      {
+        "file": "src/styles.css",
+        "hash": "2277277617069532233"
+      },
+      {
+        "file": "src/test.ts",
+        "hash": "8283657404164830452"
+      },
+      {
+        "file": "stryker.config.mjs",
+        "hash": "1036278853732933103"
+      },
+      {
+        "file": "tsconfig.app.json",
+        "hash": "1657733524966774389"
+      },
+      {
+        "file": "tsconfig.json",
+        "hash": "15067971271570832830"
+      },
+      {
+        "file": "tsconfig.spec.json",
+        "hash": "31464726375850387"
+      },
+      {
+        "file": "wallaby.js",
+        "hash": "12356813563306415069"
+      }
+    ]
+  }
+}

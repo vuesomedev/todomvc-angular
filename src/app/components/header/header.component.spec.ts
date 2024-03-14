@@ -1,28 +1,35 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
-import { By } from '@angular/platform-browser';
-import { cold } from 'jasmine-marbles';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Store, provideStore } from '@ngrx/store';
 import { HeaderComponent } from './header.component';
 import { createStore } from '../../store/index';
+import { HeaderHarness } from './header.component.harness';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { of } from 'rxjs';
+import { subscribeSpyTo } from '@hirez_io/observer-spy';
 
 describe('HeaderComponent', () => {
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [HeaderComponent],
-      imports: [StoreModule.forRoot(createStore())]
+  let fixture: ComponentFixture<HeaderComponent>;
+  let harness: HeaderHarness;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [HeaderComponent],
+      providers: [provideStore(createStore())]
     }).compileComponents();
-  }));
 
-  it('should add new element to store', () => {
-    const fixture: ComponentFixture<HeaderComponent> = TestBed.createComponent(HeaderComponent);
+    fixture = TestBed.createComponent(HeaderComponent);
+    harness = await TestbedHarnessEnvironment.harnessForFixture(fixture, HeaderHarness);
+  });
 
-    const input = fixture.debugElement.query(By.css('input'));
-    input.nativeElement.value = 'Demo';
-    input.triggerEventHandler('input', { target: input.nativeElement });
-    input.triggerEventHandler('keyup', { key: 'Enter' });
-
-    const expectedTodos = cold('a', { a: [{ id: jasmine.any(String), name: 'Demo', completed: false }] });
+  it('should add new todo to store', async () => {
+    const expectedTodos = of([{ id: jasmine.any(String), name: 'Demo', completed: false }]);
+    const expected = subscribeSpyTo(expectedTodos).getValues();
     const store = TestBed.inject(Store);
-    expect(store.select('todos')).toBeObservable(expectedTodos);
+
+    await harness.addTodo('Demo');
+
+    const actual = subscribeSpyTo(store.select('todos')).getValues();
+
+    expect(actual).toEqual(expected);
   });
 });

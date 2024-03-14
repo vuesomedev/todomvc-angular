@@ -1,20 +1,33 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TodoStateInterface } from '../../store/todo-state.interface';
-import { onCreate } from '../../store/actions/todo.action';
+import { onCreate } from '../../store/todo/todo.action';
+import { v4 as uuidv4 } from 'uuid';
 
 const ENTER_KEY = 'Enter';
 
 @Component({
   selector: 'app-header',
-  templateUrl: './header.component.html'
+  template: `
+    <header class="header">
+      <h1>todos</h1>
+      <input
+        class="new-todo"
+        placeholder="What needs to be done?"
+        [value]="name"
+        (input)="handleChange($event)"
+        (keyup)="handleSubmit($event)"
+      />
+    </header>
+  `,
+  standalone: true
 })
 export class HeaderComponent {
   name = '';
 
   constructor(private store: Store<TodoStateInterface>) {}
 
-  handleChange(event: KeyboardEvent) {
+  handleChange(event: Event) {
     this.name = (event.target as HTMLInputElement).value;
   }
 
@@ -23,7 +36,7 @@ export class HeaderComponent {
       return;
     }
 
-    this.store.dispatch(onCreate(this.name));
+    this.store.dispatch(onCreate({ id: uuidv4(), name: this.name }));
     this.name = '';
   }
 }

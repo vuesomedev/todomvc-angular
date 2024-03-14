@@ -4,7 +4,7 @@ import { TodoInterface } from '../../services/todo.interface';
 
 export const onLoad = createAction(ACTION_TYPES.load, (todos: TodoInterface[]) => ({ todos }));
 
-export const onCreate = createAction(ACTION_TYPES.create, (name: string) => ({ name }));
+export const onCreate = createAction(ACTION_TYPES.create, (todo: TodoInterface) => ({ todo }));
 
 export const onRemove = createAction(ACTION_TYPES.remove, (id: string) => ({ id }));
 
