@@ -6,11 +6,11 @@ import { TodoInterface } from 'src/app/services/todo.interface';
 export class ListHarness extends ComponentHarness {
   static readonly hostSelector = 'app-list';
 
-  private todos = this.locatorForAll(ItemHarness);
-  private allCompleted = this.locatorFor('label');
+  #todos = this.locatorForAll(ItemHarness);
+  #allCompleted = this.locatorFor('label');
 
   async getTodos(): Promise<ItemHarness[]> {
-    const todos = await this.todos();
+    const todos = await this.#todos();
     return todos;
   }
 
@@ -45,7 +45,7 @@ export class ListHarness extends ComponentHarness {
   async getTodoData() {
     const todoList = await this.getTodos();
     const todos = await parallel(() => todoList.map(todo => todo.getTodoData()));
-    return todos.filter((todo): todo is TodoInterface => !!todo);
+    return todos.filter((todo) => todo !== undefined);
   }
 
   async removeTodoById(id: string) {
@@ -64,7 +64,7 @@ export class ListHarness extends ComponentHarness {
   }
 
   async markAllTodosAsComplete() {
-    const markAsComplete = await this.allCompleted();
+    const markAsComplete = await this.#allCompleted();
     await markAsComplete.click();
   }
 

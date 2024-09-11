@@ -8,42 +8,43 @@ import { CopyRightHarness } from '../copy-right/copy-right.component.harness';
 export class AppHarness extends ComponentHarness {
   static readonly hostSelector = 'app-root';
 
-  private headerHarness = this.locatorFor(HeaderHarness);
-  private listHarness = this.locatorForOptional(ListHarness);
-  private footerHarness = this.locatorForOptional(FooterHarness);
-  private copyRightHarness = this.locatorFor(CopyRightHarness);
+  #headerHarness = this.locatorFor(HeaderHarness);
+  #listHarness = this.locatorForOptional(ListHarness);
+  #footerHarness = this.locatorForOptional(FooterHarness);
+  #copyRightHarness = this.locatorFor(CopyRightHarness);
 
   async getHeader(): Promise<HeaderHarness> {
-    return await this.headerHarness();
+    return await this.#headerHarness();
   }
 
   async getList(): Promise<ListHarness | null> {
-    return await this.listHarness();
+    return await this.#listHarness();
   }
 
   async getFooter(): Promise<FooterHarness | null> {
-    return await this.footerHarness();
+    return await this.#footerHarness();
   }
 
   async getCopyright(): Promise<CopyRightHarness> {
-    return await this.copyRightHarness();
+    return await this.#copyRightHarness();
   }
 
   async addTodo(name: string): Promise<void> {
-    const header = await this.headerHarness();
+    const header = await this.#headerHarness();
     await header.addTodo(name);
   }
 
-  async updateTodo(id: string, todo: UpdateTodo) {
-    const list = await this.listHarness();
-    if (list) {
+  async updateTodo(todo: UpdateTodo) {
+    const list = await this.#listHarness();
+    if (list !== null) {
+      const { id } = todo;
       const todoRetrieved = await list.getTodoById(id);
-      if (todoRetrieved) await todoRetrieved.edit(todo);
+      if (todoRetrieved !== undefined) await todoRetrieved.edit(todo);
     }
   }
 
   async deleteTodo(id: string) {
-    const list = await this.listHarness();
+    const list = await this.#listHarness();
     if (list) {
       const todoRetrieved = await list.getTodoById(id);
       if (todoRetrieved) await todoRetrieved.remove();
@@ -51,46 +52,49 @@ export class AppHarness extends ComponentHarness {
   }
 
   async deleteTodos() {
-    const list = await this.listHarness();
+    const list = await this.#listHarness();
     if (list) await list.removeAllTodos();
   }
 
   async markAllTodosAsComplete() {
-    const todoList = await this.listHarness();
+    const todoList = await this.#listHarness();
     if (todoList) await todoList.markAllTodosAsComplete();
   }
 
   async markAsComplete(id: string) {
-    const list = await this.listHarness();
+    const list = await this.#listHarness();
     if (list) {
       const todoRetrieved = await list.getTodoById(id);
-      const val = await todoRetrieved?.getTodoLabel();
-      if (todoRetrieved) await todoRetrieved.check();
+      if(!todoRetrieved) throw Error(`Failed to find todo with id ${id}`);
+      return todoRetrieved.check();
     }
   }
 
   async getTodos() {
-    const listHarness = await this.listHarness();
-    return (await listHarness?.getTodos()) ?? [];
+    const listHarness = await this.#listHarness();
+    return listHarness ? await listHarness.getTodos() : [];
   }
 
   async getTodosData() {
-    const listHarness = await this.listHarness();
-    return listHarness?.getTodoData() ?? [];
+    const listHarness = await this.#listHarness();
+    return listHarness ? await listHarness.getTodoData() : [];
   }
 
   async viewActiveTodos() {
-    const footerHarness = await this.footerHarness();
-    if (footerHarness) await footerHarness.clickFilter('Active');
+    const footerHarness = await this.#footerHarness();
+    if (!footerHarness) throw Error('Footer not found');
+    await footerHarness.clickFilter('Active');
   }
 
   async viewAllTodos() {
-    const footerHarness = await this.footerHarness();
-    if (footerHarness) await footerHarness.clickFilter('All');
+    const footerHarness = await this.#footerHarness();
+    if (!footerHarness) throw Error('Footer not found');
+    await footerHarness.clickFilter('All');
   }
 
   async viewCompletedTodos() {
-    const footerHarness = await this.footerHarness();
-    if (footerHarness) await footerHarness.clickFilter('Completed');
+    const footerHarness = await this.#footerHarness();
+    if (!footerHarness) throw Error('Footer not found');
+    await footerHarness.clickFilter('Completed');
   }
 }

@@ -24,6 +24,50 @@ describe('ItemComponent', () => {
     todoService = TestBed.inject(TodoService);
   });
 
+  it('should check todo item', async () => {
+    component.todo = { id: 'e2bb892a-844a-47fb-a2b3-47f491af9d88', name: 'Demo', completed: false };
+    harness = await TestbedHarnessEnvironment.harnessForFixture(fixture, ItemHarness);
+
+    component.update.subscribe(emittedTodo => (component.todo = emittedTodo));
+    await harness.check();
+
+    const isComplete = await harness.isCompleted();
+    expect(isComplete).toEqual(true);
+  });
+
+  it('should not check todo item', async () => {
+    component.todo = { id: 'e2bb892a-844a-47fb-a2b3-47f491af9d88', name: 'Demo', completed: true };
+    harness = await TestbedHarnessEnvironment.harnessForFixture(fixture, ItemHarness);
+
+    component.update.subscribe(emittedTodo => (component.todo = emittedTodo));
+    await harness.check();
+
+    const isComplete = await harness.isCompleted();
+    expect(isComplete).toEqual(true);
+  });
+
+  it('should uncheck todo item', async () => {
+    component.todo = { id: 'e2bb892a-844a-47fb-a2b3-47f491af9d88', name: 'Demo', completed: true };
+    harness = await TestbedHarnessEnvironment.harnessForFixture(fixture, ItemHarness);
+
+    component.update.subscribe(emittedTodo => (component.todo = emittedTodo));
+    await harness.uncheck();
+
+    const isComplete = await harness.isCompleted();
+    expect(isComplete).toEqual(false);
+  });
+
+  it('should not uncheck todo item', async () => {
+    component.todo = { id: 'e2bb892a-844a-47fb-a2b3-47f491af9d88', name: 'Demo', completed: false };
+    harness = await TestbedHarnessEnvironment.harnessForFixture(fixture, ItemHarness);
+
+    component.update.subscribe(emittedTodo => (component.todo = emittedTodo));
+    await harness.uncheck();
+
+    const isComplete = await harness.isCompleted();
+    expect(isComplete).toEqual(false);
+  });
+
   it('should display todo item', async () => {
     component.todo = { id: 'e2bb892a-844a-47fb-a2b3-47f491af9d88', name: 'Demo', completed: false };
     harness = await TestbedHarnessEnvironment.harnessForFixture(fixture, ItemHarness);
@@ -80,20 +124,19 @@ describe('ItemComponent', () => {
     component.remove.subscribe(id => (retrievedTodoId = id));
     await harness.remove();
 
-    expect(retrievedTodoId).toEqual(component.todo.id);
+    expect(component.todo.id).toEqual(retrievedTodoId);
   });
 
   it('should notify about update button', async () => {
     component.todo = { id: 'e2bb892a-844a-47fb-a2b3-47f491af9d88', name: 'Demo', completed: false };
-    const expectedTodo = { id: 'e2bb892a-844a-47fb-a2b3-47f491af9d88', completed: true };
+    const expectedTodo = { id: 'e2bb892a-844a-47fb-a2b3-47f491af9d88', name: 'Demo Update', completed: true };
     harness = await TestbedHarnessEnvironment.harnessForFixture(fixture, ItemHarness);
-    let retrievedTodo: TodoInterface = { id: '', name: '', completed: false };
 
-    component.update.subscribe(emittedTodo => (retrievedTodo = emittedTodo));
+    component.update.subscribe(emittedTodo => (component.todo = emittedTodo));
 
-    await harness.edit({ name: 'Demo Update', completed: true });
+    await harness.edit({ id: 'e2bb892a-844a-47fb-a2b3-47f491af9d88', name: 'Demo Update', completed: true });
 
-    expect(retrievedTodo).toEqual(expectedTodo);
+    expect(component.todo).toEqual(expectedTodo);
   });
 
   it('should get todo data', async () => {

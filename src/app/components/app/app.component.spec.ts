@@ -1,7 +1,5 @@
-import { HttpClientModule } from '@angular/common/http';
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
 import { TodoService } from 'src/app/services/todo.service';
 import { AppComponent } from './app.component';
 import { AppHarness } from './app.component.harness';
@@ -34,7 +32,18 @@ describe('AppComponent', () => {
   afterEach(async () => {
     const [todos] = subscribeSpyTo(todoService.getTodos()).getValues() as TodoInterface[][];
     todoService.deleteTodos(todos.map(todo => todo.id));
-    await harness.viewAllTodos();
+  });
+
+  it("should initialize todos", async () => {
+    component.ngOnInit();
+    
+    const todos = subscribeSpyTo(todoService.getTodos()).getValues();
+
+    expect(todos.length).toBeGreaterThan(0);
+  });
+
+  it('should be app-root selector', () => {
+    expect(harness).toBeTruthy();
   });
 
   it('should return HeaderHarness', async () => {
@@ -86,9 +95,9 @@ describe('AppComponent', () => {
   it('should update a todo by Id', async () => {
     const todoToAdd: AddTodo = { id: '1', name: 'Test001' };
     todoService.addTodo(todoToAdd);
-    const updatedTodo: UpdateTodo = { name: 'Test002', completed: true };
+    const updatedTodo: UpdateTodo = { id: '1', name: 'Test002', completed: true };
 
-    await harness.updateTodo(todoToAdd.id, updatedTodo);
+    await harness.updateTodo(updatedTodo);
     const [todo] = subscribeSpyTo(todoService.getTodoById(todoToAdd.id)).getValues();
 
     expect(todo).toEqual({
@@ -193,12 +202,12 @@ describe('AppComponent', () => {
   it('should display all todos', async () => {
     const expectedTodos = [
       {
-        id: jasmine.any(String),
+        id: expect.any(String),
         name: 'Test001',
         completed: false
       },
       {
-        id: jasmine.any(String),
+        id: expect.any(String),
         name: 'Test002',
         completed: false
       }
@@ -222,7 +231,7 @@ describe('AppComponent', () => {
   it('should display active todos', async () => {
     const expectedTodo = [
       {
-        id: jasmine.any(String),
+        id: expect.any(String),
         name: 'Test002',
         completed: false
       }
@@ -246,7 +255,7 @@ describe('AppComponent', () => {
   it('should show completed todos', async () => {
     const expectedTodo = [
       {
-        id: jasmine.any(String),
+        id: expect.any(String),
         name: 'Test001',
         completed: true
       }

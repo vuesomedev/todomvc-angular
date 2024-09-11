@@ -3,6 +3,8 @@ import { TodoInterface } from '../../services/todo.interface';
 import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+const ENTER_KEY = 'Enter';
+
 @Component({
   selector: 'app-item',
   template: `<li [ngClass]="{ completed: todo.completed, editing, }">
@@ -16,7 +18,6 @@ import { FormsModule } from '@angular/forms';
     }
   </li> `,
   standalone: true,
-  styleUrls: ['./item.component.css'],
   imports: [NgClass, FormsModule]
 })
 export class ItemComponent implements OnChanges {
@@ -44,7 +45,7 @@ export class ItemComponent implements OnChanges {
   }
 
   handleBlur() {
-    this.update.emit({ id: this.todo.id, name: this.name });
+    this.update.emit({ id: this.todo.id, name: this.name, completed: this.todo.completed });
     this.editing = false;
   }
 
@@ -53,6 +54,6 @@ export class ItemComponent implements OnChanges {
   }
 
   handleCompleted() {
-    this.update.emit({ id: this.todo.id, completed: !this.todo.completed });
+    this.update.emit({ id: this.todo.id, name: this.name, completed: !this.todo.completed });
   }
 }

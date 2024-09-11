@@ -2,22 +2,13 @@
 /** @type {import('@stryker-mutator/api/core').PartialStrykerOptions} */
 const config = {
   _comment:
-    "This config was generated using 'stryker init'. Please see the guide for more information: https://stryker-mutator.io/docs/stryker-js/guides/angular",
-  mutate: ['src/**/*.ts', '!src/**/*.spec.ts', '!src/test.ts', '!src/environments/*.ts'],
-  testRunner: 'karma',
-  karma: {
-    configFile: 'karma.conf.js',
-    projectType: 'angular-cli',
-    config: {
-      browsers: ['ChromeHeadless']
-    }
-  },
-  plugins: [
-    "@stryker-mutator/karma-runner"
-  ],
-  reporters: ['progress', 'clear-text', 'html'],
-  concurrency: 5,
-  concurrency_comment: 'Recommended to use about half of your available cores when running stryker with angular',
-  coverageAnalysis: 'perTest'
+    "This config was generated using 'stryker init'. Please take a look at: https://stryker-mutator.io/docs/stryker-js/configuration/ for more information.",
+  packageManager: 'npm',
+  reporters: ['html', 'clear-text', 'progress', 'dashboard'],
+  testRunner: 'jest',
+  testRunner_comment:
+    'Take a look at https://stryker-mutator.io/docs/stryker-js/jest-runner for information about the jest plugin.',
+  coverageAnalysis: 'perTest',
+  ignoreStatic: true
 };
 export default config;

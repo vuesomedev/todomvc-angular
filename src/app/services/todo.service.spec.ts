@@ -71,7 +71,7 @@ describe('TodoService', () => {
   });
 
   it('should get completed todos', async () => {
-    const expectedTodo = { id: jasmine.any(String), name: 'Demo', completed: true };
+    const expectedTodo = { id: expect.any(String), name: 'Demo', completed: true };
 
     const todo1: AddTodo = { id: '1', name: 'Demo' };
 
@@ -84,7 +84,7 @@ describe('TodoService', () => {
   });
 
   it('should get todo by Id', async () => {
-    const expectedTodo = { id: jasmine.any(String), name: 'Demo', completed: false };
+    const expectedTodo = { id: expect.any(String), name: 'Demo', completed: false };
 
     const todo1: AddTodo = { id: '1', name: 'Demo' };
 
@@ -138,8 +138,8 @@ describe('TodoService', () => {
     const todos = subscribeSpyTo(service.getTodos()).getValues()[0];
 
     expect(todos).toEqual([
-      { id: jasmine.any(String), name: 'Demo', completed: true },
-      { id: jasmine.any(String), name: 'Demo', completed: true }
+      { id: expect.any(String), name: 'Demo', completed: true },
+      { id: expect.any(String), name: 'Demo', completed: true }
     ]);
   });
 

@@ -61,6 +61,12 @@ describe('ListComponent', () => {
     expect(completedTodos.length).toEqual(1);
   });
 
+  it('should return no completed todos', async () => {
+    const completedTodos = await harness.getCompletedTodos();
+
+    expect(completedTodos.length).toEqual(0);
+  });
+
   it('should return a list of incomplete todos', async () => {
     const todo1: AddTodo = { id: '1', name: 'Demo' };
     const todo2: AddTodo = { id: '2', name: 'Demo' };
@@ -69,7 +75,7 @@ describe('ListComponent', () => {
 
     const todos = await harness.getTodos();
     const [firstTodo] = todos;
-    await firstTodo.edit({ name: 'Demo 2', completed: true });
+    await firstTodo.edit({ id: '2', name: 'Demo 2', completed: true });
 
     const completedTodos = await harness.getIncompleteTodos();
 
@@ -84,7 +90,7 @@ describe('ListComponent', () => {
 
     const todos = await harness.getTodos();
     const [firstTodo] = todos;
-    await firstTodo.edit({ name: 'Demo 2', completed: true });
+    await firstTodo.edit({ id: '2', name: 'Demo 2', completed: true });
 
     const todoData = await firstTodo.getTodoData();
 
@@ -99,7 +105,7 @@ describe('ListComponent', () => {
 
     const todos = await harness.getTodos();
     const [firstTodo] = todos;
-    await firstTodo.edit({ name: 'Demo 2', completed: false });
+    await firstTodo.edit({ id: '2', name: 'Demo 2', completed: false });
 
     const todoData = await firstTodo.getTodoData();
 
@@ -147,7 +153,7 @@ describe('ListComponent', () => {
     const todo1: AddTodo = { id: '1', name: 'Demo', completed: false };
     todoService.addTodo(todo1);
 
-    await harness.updateTodo(todo1.id, { name: 'Demo 2', completed: true });
+    await harness.updateTodo(todo1.id, { id: '2', name: 'Demo 2', completed: true });
     const retrievedTodo = await harness.getTodoDataById(todo1.id);
 
     expect(retrievedTodo).not.toBeUndefined();

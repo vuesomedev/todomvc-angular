@@ -22,7 +22,7 @@ describe('HeaderComponent', () => {
   });
 
   it('should add new todo to store', async () => {
-    const expectedTodos = of([{ id: jasmine.any(String), name: 'Demo', completed: false }]);
+    const expectedTodos = of([{ id: expect.any(String), name: 'Demo', completed: false }]);
     const expected = subscribeSpyTo(expectedTodos).getValues();
     const store = TestBed.inject(Store);
 
