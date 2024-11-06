@@ -43,7 +43,7 @@
     "@angular-eslint/schematics": "18.4.0",
     "@angular-eslint/template-parser": "18.4.0",
     "@angular/cdk": "^18.2.11",
-    "@angular/cli": "^17.1.2",
+    "@angular/cli": "^17.3.11",
     "@angular/compiler-cli": "^18.2.10",
     "@angular/language-service": "^18.2.10",
     "@hirez_io/observer-spy": "^2.2.0",
