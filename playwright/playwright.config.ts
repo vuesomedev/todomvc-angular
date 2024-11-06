@@ -8,7 +8,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const config: PlaywrightTestConfig = {
   use: {
     headless: true,
-    trace: 'retain-on-failure'
+    trace: 'retain-on-failure',
+    useLocators: true,
+    enableAutomaticStabilization: false,
   },
   /* Run tests in files in parallel */
   fullyParallel: true,
