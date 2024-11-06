@@ -47,7 +47,7 @@
     "@angular/compiler-cli": "^18.2.10",
     "@angular/language-service": "^18.2.10",
     "@hirez_io/observer-spy": "^2.2.0",
-    "@ngx-playwright/test": "0.5.3",
+    "@ngx-playwright/test": "0.5.9",
     "@nx/vite": "~18.0.0",
     "@stryker-mutator/core": "^8.0.0",
     "@stryker-mutator/karma-runner": "^8.0.0",
