@@ -48,7 +48,7 @@
     "@angular/language-service": "^18.2.11",
     "@hirez_io/observer-spy": "^2.2.0",
     "@ngx-playwright/test": "0.5.9",
-    "@nx/vite": "~20.0.9",
+    "@nx/vite": "~20.0.10",
     "@stryker-mutator/vitest-runner": "^8.6.0",
     "@types/node": "^18.19.3",
     "@types/uuid": "~8.3.4",
