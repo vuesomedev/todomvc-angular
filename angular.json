@@ -78,6 +78,12 @@
         "test": {
           "builder": "@analogjs/vitest-angular:test"
         },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+          }
+        },
         "e2e": {
           "builder": "@ngx-playwright/test:run",
           "options": {
@@ -88,12 +94,6 @@
             "ci": {
               "forbidOnly": true
             }
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         }
       }

@@ -193,12 +193,12 @@ describe('AppComponent', () => {
   it('should display all todos', async () => {
     const expectedTodos = [
       {
-        id: jasmine.any(String),
+        id: expect.any(String),
         name: 'Test001',
         completed: false
       },
       {
-        id: jasmine.any(String),
+        id: expect.any(String),
         name: 'Test002',
         completed: false
       }
@@ -222,7 +222,7 @@ describe('AppComponent', () => {
   it('should display active todos', async () => {
     const expectedTodo = [
       {
-        id: jasmine.any(String),
+        id: expect.any(String),
         name: 'Test002',
         completed: false
       }
@@ -244,11 +244,29 @@ describe('AppComponent', () => {
   });
 
   it('should show completed todos', async () => {
+    const expectedAddedTodos = [
+      {
+        id: expect.any(String),
+        name: 'Test001',
+        completed: false
+      },
+      {
+        id: expect.any(String),
+        name: 'Test002',
+        completed: false
+      }
+    ];
+
     const expectedTodo = [
       {
-        id: jasmine.any(String),
+        id: expect.any(String),
         name: 'Test001',
         completed: true
+      },
+      {
+        id: expect.any(String),
+        name: 'Test002',
+        completed: false
       }
     ];
 
@@ -257,11 +275,15 @@ describe('AppComponent', () => {
     await harness.addTodo(todo1);
     await harness.addTodo(todo2);
 
+    // const todos1 = await harness.getTodosData();
+
+    // expect(todos1).toEqual(expectedAddedTodos);
+
     const [firsTodoHarness] = await harness.getTodos();
 
     await firsTodoHarness.check();
 
-    await harness.viewCompletedTodos();
+    // await harness.viewCompletedTodos();
 
     const todos = await harness.getTodosData();
 

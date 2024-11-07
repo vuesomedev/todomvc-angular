@@ -16,7 +16,7 @@ describe('todosReducer', () => {
     const todos = createTodoReducer([])([], onCreate({ id: '1', name: 'Demo' }));
 
     expect(todos.length).toEqual(1);
-    expect(todos[0].id).toEqual(jasmine.any(String));
+    expect(todos[0].id).toEqual(expect.any(String));
     expect(todos[0].name).toEqual('Demo');
     expect(todos[0].completed).toEqual(false);
   });
