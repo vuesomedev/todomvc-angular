@@ -25,7 +25,7 @@ export class ItemComponent implements OnChanges {
   name = '';
 
   @Input()
-  public todo: TodoInterface;
+  public todo!: TodoInterface;
 
   @Output()
   remove = new EventEmitter<string>();
@@ -34,8 +34,8 @@ export class ItemComponent implements OnChanges {
   update = new EventEmitter<TodoInterface>();
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.todo) {
-      this.name = changes.todo.currentValue.name;
+    if (changes['todo']) {
+      this.name = changes['todo'].currentValue.name;
     }
   }
 

@@ -4,6 +4,7 @@ import { ListHarness } from '../list/list.component.harness';
 import { FooterHarness } from '../footer/footer.component.harness';
 import { UpdateTodo } from 'src/app/store/todo-state.interface';
 import { CopyRightHarness } from '../copy-right/copy-right.component.harness';
+import { TodoInterface } from 'src/app/services/todo.interface';
 
 export class AppHarness extends ComponentHarness {
   static readonly hostSelector = 'app-root';
@@ -74,9 +75,9 @@ export class AppHarness extends ComponentHarness {
     return (await listHarness?.getTodos()) ?? [];
   }
 
-  async getTodosData() {
+  async getTodosData(): Promise<TodoInterface[]> {
     const listHarness = await this.listHarness();
-    return listHarness?.getTodoData() ?? [];
+    return (await listHarness?.getTodoData()) ?? [];
   }
 
   async viewActiveTodos() {

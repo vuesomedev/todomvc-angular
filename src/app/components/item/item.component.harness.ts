@@ -17,16 +17,14 @@ export class ItemHarness extends ComponentHarness {
   }
 
   async check(): Promise<void> {
-    const toggle = await this._toggle();
-    const isChecked = await toggle.hasClass('checked');
+    const isChecked = await this.isCompleted();
     if (!isChecked) {
       await this.toggle();
     }
   }
 
   async uncheck(): Promise<void> {
-    const toggle = await this._toggle();
-    const isChecked = await toggle.hasClass('checked');
+    const isChecked = await this.isCompleted();
     if (isChecked) {
       await this.toggle();
     }

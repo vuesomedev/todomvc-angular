@@ -193,12 +193,12 @@ describe('AppComponent', () => {
   it('should display all todos', async () => {
     const expectedTodos = [
       {
-        id: jasmine.any(String),
+        id: expect.any(String),
         name: 'Test001',
         completed: false
       },
       {
-        id: jasmine.any(String),
+        id: expect.any(String),
         name: 'Test002',
         completed: false
       }
@@ -222,7 +222,7 @@ describe('AppComponent', () => {
   it('should display active todos', async () => {
     const expectedTodo = [
       {
-        id: jasmine.any(String),
+        id: expect.any(String),
         name: 'Test002',
         completed: false
       }
@@ -244,13 +244,26 @@ describe('AppComponent', () => {
   });
 
   it('should show completed todos', async () => {
-    const expectedTodo = [
+    const expectedAddedTodos = [
       {
-        id: jasmine.any(String),
+        id: expect.any(String),
         name: 'Test001',
-        completed: true
+        completed: false
+      },
+      {
+        id: expect.any(String),
+        name: 'Test002',
+        completed: false
       }
     ];
+
+    const expectedTodo = expect.arrayContaining([
+      expect.objectContaining({
+        id: expect.any(String),
+        name: 'Test001',
+        completed: true
+      }),
+    ]);
 
     const todo1 = 'Test001';
     const todo2 = 'Test002';

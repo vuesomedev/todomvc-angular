@@ -1,7 +1,4 @@
 
-module.exports = ({
-  autoDetect: true,
-  env: {
-    kind: 'chrome'
-  },
+module.exports = () => ({
+  autoDetect: true
 });
