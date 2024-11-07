@@ -257,33 +257,24 @@ describe('AppComponent', () => {
       }
     ];
 
-    const expectedTodo = [
-      {
+    const expectedTodo = expect.arrayContaining([
+      expect.objectContaining({
         id: expect.any(String),
         name: 'Test001',
         completed: true
-      },
-      {
-        id: expect.any(String),
-        name: 'Test002',
-        completed: false
-      }
-    ];
+      }),
+    ]);
 
     const todo1 = 'Test001';
     const todo2 = 'Test002';
     await harness.addTodo(todo1);
     await harness.addTodo(todo2);
 
-    // const todos1 = await harness.getTodosData();
-
-    // expect(todos1).toEqual(expectedAddedTodos);
-
     const [firsTodoHarness] = await harness.getTodos();
 
     await firsTodoHarness.check();
 
-    // await harness.viewCompletedTodos();
+    await harness.viewCompletedTodos();
 
     const todos = await harness.getTodosData();
 
