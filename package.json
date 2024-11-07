@@ -27,9 +27,9 @@
     "@angular/router": "^18.2.11",
     "@ngrx/store": "^18.1.1",
     "@ngrx/store-devtools": "^18.1.1",
-    "rxjs": "~7.5.5",
-    "todomvc-app-css": "~2.4.2",
-    "uuid": "~8.3.2",
+    "rxjs": "~7.8.1",
+    "todomvc-app-css": "~2.4.3",
+    "uuid": "~11.0.2",
     "zone.js": "~0.14.10"
   },
   "devDependencies": {
@@ -50,7 +50,7 @@
     "@ngx-playwright/test": "0.5.9",
     "@nx/vite": "~20.0.10",
     "@stryker-mutator/vitest-runner": "^8.6.0",
-    "@types/node": "^18.19.3",
+    "@types/node": "^22.9.0",
     "@types/uuid": "~10.0.0",
     "@typescript-eslint/eslint-plugin": "^8.13.0",
     "@typescript-eslint/parser": "^8.13.0",
