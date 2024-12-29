@@ -3,8 +3,7 @@
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
     "target": "es2016",
-    "types": ["node", "vitest/globals"],
-    "module": "ESNext"
+    "types": ["node", "vitest/globals", "vitest/globals"]
   },
   "files": ["src/test-setup.ts"],
   "include": ["src/**/*.spec.ts", "src/**/*.d.ts"],
