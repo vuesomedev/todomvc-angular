@@ -17,17 +17,10 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
-    "lib": [
-      "ES2022",
-      "dom"
-    ],
-    "types": [
-      "vitest/globals"
-    ],
+    "lib": ["ES2022", "dom"],
+    "types": ["vitest/globals"],
     "paths": {
-      "src/*": [
-        "./src/*"
-      ]
+      "src/*": ["./src/*"]
     }
   },
   "angularCompilerOptions": {
