@@ -1,5 +1,5 @@
-export interface TodoInterface {
-  id?: string;
+export type TodoInterface = {
+  id: string;
   name?: string;
   completed?: boolean;
 }

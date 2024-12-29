@@ -1,34 +1,44 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
 import { TodoInterface } from '../../services/todo.interface';
-import { TodoStateInterface } from '../../store/todo-state.interface';
-import { selectAllCompleted, selectVisible } from '../../store/selectors/todo.selector';
-import { onCompleteAll, onRemove, onUpdate } from '../../store/actions/todo.action';
+import { ItemComponent } from '../item/item.component';
+import { AsyncPipe } from '@angular/common';
+import { TodoService } from 'src/app/services/todo.service';
 
 @Component({
   selector: 'app-list',
-  templateUrl: './list.component.html'
+  template: `<section class="main">
+    <input id="toggle-all" class="toggle-all" type="checkbox" readonly [checked]="allCompleted$ | async" />
+    <label htmlFor="toggle-all" (click)="handleCompleteAll()"></label>
+
+    <ul class="todo-list">
+      @for (todo of (visibleTodos$ | async); track $index) {
+      <app-item [todo]="todo" (remove)="handleRemove($event)" (update)="handleUpdate($event)"></app-item>
+      }
+    </ul>
+  </section> `,
+  standalone: true,
+  imports: [ItemComponent, AsyncPipe]
 })
 export class ListComponent {
-  visibleTodos$: Observable<TodoInterface[]>;
+  visibleTodos$: Observable<ReadonlyArray<TodoInterface>>;
 
   allCompleted$: Observable<boolean>;
 
-  constructor(private store: Store<TodoStateInterface>) {
-    this.visibleTodos$ = store.select(selectVisible);
-    this.allCompleted$ = store.select(selectAllCompleted);
+  constructor(private todoService: TodoService) {
+    this.visibleTodos$ = todoService.getTodos();
+    this.allCompleted$ = todoService.completedTodos();
   }
 
   public handleRemove(id: string) {
-    this.store.dispatch(onRemove(id));
+    this.todoService.deleteTodo(id);
   }
 
   public handleUpdate(values: TodoInterface) {
-    this.store.dispatch(onUpdate(values));
+    this.todoService.updateTodo(values);
   }
 
   public handleCompleteAll() {
-    this.store.dispatch(onCompleteAll());
+    this.todoService.toggleCompleted();
   }
 }

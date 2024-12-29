@@ -1,21 +1,44 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectCompletedCount, selectItemsLeft } from '../../store/selectors/todo.selector';
-import { FILTERS } from '../../constants/filter';
+import { selectCompletedCount, selectItemsLeft } from '../../store/todo/todo.selector';
+import { FiltersObj, Filters } from '../../constants/filter';
 import { TodoStateInterface } from '../../store/todo-state.interface';
-import { onClearCompleted } from '../../store/actions/todo.action';
-import { onFilterSelect } from '../../store/actions/filter.action';
+import { onClearCompleted } from '../../store/todo/todo.action';
+import { onFilterSelect } from '../../store/filter/filter.action';
+import { AsyncPipe } from '@angular/common';
+import { selectFilter } from '../../store/filter/filter.selector';
 
 @Component({
   selector: 'app-footer',
-  templateUrl: './footer.component.html'
+  template: `<footer class="footer">
+      <span class="todo-count"
+        ><strong>{{ itemsLeft$ | async }}</strong
+        ><span> {{ itemText$ | async }} left</span></span
+        >
+        <ul class="filters">
+          @for (item of filterTitles; track item) {
+            <li>
+              <a href="#" [class.selected]="item.key === (filter$ | async)" (click)="handleFilterSelect(item.key, $event)">
+                {{ item.value }}
+              </a>
+            </li>
+          }
+        </ul>
+        @if (!!(completedCount$ | async)) {
+          <button class="clear-completed" (click)="handleClearCompleted()">
+            Clear completed
+          </button>
+        }
+      </footer>`,
+  standalone: true,
+  imports: [AsyncPipe]
 })
 export class FooterComponent {
-  filterTitles = [
-    { key: FILTERS.all, value: 'All' },
-    { key: FILTERS.active, value: 'Active' },
-    { key: FILTERS.completed, value: 'Completed' }
+  filterTitles: FiltersObj[] = [
+    { key: 'all', value: 'All' },
+    { key: 'active', value: 'Active' },
+    { key: 'completed', value: 'Completed' }
   ];
 
   itemsLeft$: Observable<number>;
@@ -30,14 +53,15 @@ export class FooterComponent {
     this.itemsLeft$ = store.select(selectItemsLeft);
     this.completedCount$ = store.select(selectCompletedCount);
     this.itemText$ = store.select((state: TodoStateInterface) => (selectItemsLeft(state) === 1 ? 'item' : 'items'));
-    this.filter$ = store.select('filter');
+    this.filter$ = store.select(selectFilter);
   }
 
   handleClearCompleted() {
     this.store.dispatch(onClearCompleted());
   }
 
-  handleFilterSelect(filter: string) {
+  async handleFilterSelect(filter: Filters, event: Event) {
+    event.preventDefault();
     this.store.dispatch(onFilterSelect(filter));
   }
 }

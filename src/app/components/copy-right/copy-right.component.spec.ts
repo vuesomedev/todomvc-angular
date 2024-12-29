@@ -1,17 +1,31 @@
-import { TestBed, waitForAsync, ComponentFixture } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { CopyRightComponent } from './copy-right.component';
+import { CopyRightHarness } from './copy-right.component.harness';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 
 describe('CopyRightComponent', () => {
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [CopyRightComponent]
-    }).compileComponents();
-  }));
+  let fixture: ComponentFixture<CopyRightComponent>;
+  let harness: CopyRightHarness;
 
-  it('should render component', () => {
-    const fixture: ComponentFixture<CopyRightComponent> = TestBed.createComponent(CopyRightComponent);
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+    imports: [CopyRightComponent]
+}).compileComponents();
 
-    const info = fixture.nativeElement.querySelector('.info');
-    expect(info.textContent).toContain('Double-click to edit a todo');
+    fixture = TestBed.createComponent(CopyRightComponent);
+    harness = await TestbedHarnessEnvironment.harnessForFixture(fixture, CopyRightHarness);
+  });
+
+  it('should have "app-copy-right" as the hostSelector for harness', async () => {
+    expect(CopyRightHarness.hostSelector).toEqual('app-copy-right');
+  });
+
+  it('should render component', async () => {
+    const info = await harness.getInfo();
+
+    expect(info).toContain('Double-click to edit a todo');
+    expect(info).toContain('Created by blacksonic');
+    expect(info).toContain('Part of TodoMVC');
   });
 });
+
